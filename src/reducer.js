@@ -16,6 +16,8 @@ const componentState = (state = initialState, action) => {
 
 const initialStateOfCards = {
   mostPopular: [],
+  genreMovies: [],
+  genreActivated: false,
 };
 
 const cards = (state = initialStateOfCards, action) => {
@@ -23,6 +25,44 @@ const cards = (state = initialStateOfCards, action) => {
     case 'setMostPopularMovies': return {
       ...state,
       mostPopular: action.list,
+      genreActivated: false,
+    };
+    case 'setGenreMovies': return {
+      ...state,
+      genreMovies: action.list,
+      genreActivated: true,
+    };
+    default: return state;
+  }
+};
+
+const stateOfGenres = {
+  allGenres: [],
+}
+
+const genres = (state = stateOfGenres, action) => {
+  switch (action.type) {
+    case 'setGenres': return {
+      ...state,
+      allGenres: action.list,
+    };
+    default: return state;
+  }
+};
+
+const stateOfHearted = {
+  hearted: [],
+}
+
+const hearts = (state = stateOfHearted, action) => {
+  switch (action.type) {
+    case 'setHeart': return {
+      ...state,
+      hearted: state.hearted.concat(action.id),
+    };
+    case 'removeHeart': return {
+      ...state,
+      hearted: state.hearted.filter(item => item !== action.id),
     };
     default: return state;
   }
@@ -31,4 +71,6 @@ const cards = (state = initialStateOfCards, action) => {
 export const rootReducer = combineReducers({
   componentState,
   cards,
+  genres,
+  hearts,
 });
